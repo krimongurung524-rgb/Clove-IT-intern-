@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Visits{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4"><i class="fas fa-calendar-check text-primary me-2"></i>My Visit Bookings</h2>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Property</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'properties:details' booking.property.pk %}" class="text-decoration-none">
+                                {{ booking.property.title }}
+                            </a>
+                            <div class="small text-muted">{{ booking.property.city }}</div>
+                        </td>
+                        <td>{{ booking.preferred_date }}</td>
+                        <td>{{ booking.preferred_time }}</td>
+                        <td>
+                            <span class="badge {% if booking.status == 'confirmed' %}bg-success{% elif booking.status == 'pending' %}bg-warning text-dark{% elif booking.status == 'completed' %}bg-info{% elif booking.status == 'cancelled' %}bg-secondary{% else %}bg-danger{% endif %}">
+                                {{ booking.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if booking.status in 'pending,confirmed' %}
+                            <a href="{% url 'bookings:cancel' booking.pk %}" class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Cancel this visit?')">Cancel</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No visit bookings yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

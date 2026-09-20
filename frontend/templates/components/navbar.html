@@ -1,0 +1,79 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <i class="fas fa-home text-primary me-2"></i>
+            <span class="fw-bold text-primary">Room</span><span class="fw-bold">Finder</span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'properties:search' %}">Search Rooms</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'properties:map' %}">Map View</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav align-items-lg-center">
+                {% if user.is_authenticated %}
+                    {% if user.role == 'owner' or user.role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'owner:dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-1"></i> Owner Dashboard
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard:dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Avatar" class="rounded-circle me-2" width="32" height="32">
+                            {% else %}
+                            <i class="fas fa-user-circle fa-lg me-1"></i>
+                            {% endif %}
+                            {{ user.first_name|default:user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'favorites:saved' %}"><i class="fas fa-heart me-2"></i> Saved Rooms</a></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard:messages' %}"><i class="fas fa-envelope me-2"></i> Messages</a></li>
+                            {% if user.role == 'owner' %}
+                            <li><a class="dropdown-item" href="{% url 'owner:add_property' %}"><i class="fas fa-plus me-2"></i> Add Property</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm ms-2 px-3" href="{% url 'accounts:register' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

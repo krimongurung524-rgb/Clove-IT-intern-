@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Owner Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/owner.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Owner Dashboard</h2>
+        <a href="{% url 'owner:add_property' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-1"></i> Add Property
+        </a>
+    </div>
+    
+    <!-- Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value text-primary">{{ total_properties }}</div>
+                    <div class="text-muted small">Total Properties</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value text-success">{{ available }}</div>
+                    <div class="text-muted small">Available</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value text-danger">{{ rented }}</div>
+                    <div class="text-muted small">Rented</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="stat-value text-info">{{ total_views }}</div>
+                    <div class="text-muted small">Total Views</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Recent Properties -->
+        <div class="col-lg-7 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between">
+                    <h5 class="mb-0">Your Properties</h5>
+                    <a href="{% url 'owner:properties' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    {% for prop in properties %}
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <a href="{% url 'properties:details' prop.pk %}" class="fw-semibold text-decoration-none">{{ prop.title }}</a>
+                            <div class="small text-muted">Rs. {{ prop.price|floatformat:0 }}/mo • {{ prop.city }}</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="property-status-badge status-{{ prop.status }}">{{ prop.get_status_display }}</span>
+                            <a href="{% url 'owner:edit_property' prop.pk %}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No properties yet. <a href="{% url 'owner:add_property' %}">Add your first property</a></p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Inquiries -->
+        <div class="col-lg-5 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between">
+                    <h5 class="mb-0">Recent Inquiries 
+                        {% if unread_inquiries %}<span class="badge bg-danger">{{ unread_inquiries }}</span>{% endif %}
+                    </h5>
+                </div>
+                <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                    {% for inq in recent_inquiries %}
+                    <div class="py-2 border-bottom">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ inq.user.username }}</strong>
+                            <small class="text-muted">{{ inq.created_at|timesince }} ago</small>
+                        </div>
+                        <div class="small text-muted">{{ inq.property.title }}</div>
+                        <p class="mb-0 small">{{ inq.message|truncatechars:80 }}</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted mb-0">No inquiries yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

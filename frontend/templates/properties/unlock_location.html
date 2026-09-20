@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Unlock Location{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <h3 class="mb-3"><i class="fas fa-unlock text-warning me-2"></i>Unlock Exact Location</h3>
+                    <p class="text-muted">Pay once to see full address, landmark, contact phone and map pin.</p>
+
+                    <div class="bg-light rounded p-3 mb-4">
+                        <h5 class="mb-1">{{ property.title }}</h5>
+                        <p class="mb-0 text-muted small">
+                            <i class="fas fa-map-marker-alt"></i> {{ property.public_location_label }}
+                            <span class="badge bg-secondary ms-1">Area only</span>
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fw-semibold">Unlock fee</span>
+                        <span class="fs-4 text-primary fw-bold">Rs. {{ unlock_fee|floatformat:0 }}</span>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Payment method</label>
+                            <select name="payment_method" class="form-select">
+                                <option value="demo">Demo Pay (testing)</option>
+                                <option value="esewa">eSewa</option>
+                                <option value="khalti">Khalti</option>
+                                <option value="bank">Bank transfer</option>
+                            </select>
+                            <small class="text-muted">Demo Pay completes payment instantly for testing.</small>
+                        </div>
+                        <button type="submit" class="btn btn-warning text-dark w-100 fw-semibold">
+                            <i class="fas fa-credit-card me-1"></i> Pay Rs. {{ unlock_fee|floatformat:0 }} &amp; Unlock
+                        </button>
+                    </form>
+                    <a href="{% url 'properties:details' property.pk %}" class="btn btn-link w-100 mt-2">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

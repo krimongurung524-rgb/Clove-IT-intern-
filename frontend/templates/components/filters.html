@@ -1,0 +1,89 @@
+<div class="filters-sidebar card border-0 shadow-sm">
+    <div class="card-header bg-white border-0">
+        <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filters</h5>
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{% url 'properties:search' %}" id="filterForm">
+            <!-- Keep existing search params -->
+            {% if request.GET.q %}<input type="hidden" name="q" value="{{ request.GET.q }}">{% endif %}
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Property Type</label>
+                <select name="property_type" class="form-select form-select-sm">
+                    <option value="">All Types</option>
+                    <option value="room" {% if request.GET.property_type == 'room' %}selected{% endif %}>Single Room</option>
+                    <option value="flat" {% if request.GET.property_type == 'flat' %}selected{% endif %}>Flat</option>
+                    <option value="house" {% if request.GET.property_type == 'house' %}selected{% endif %}>House</option>
+                    <option value="hostel" {% if request.GET.property_type == 'hostel' %}selected{% endif %}>Hostel</option>
+                    <option value="pg" {% if request.GET.property_type == 'pg' %}selected{% endif %}>PG</option>
+                    <option value="studio" {% if request.GET.property_type == 'studio' %}selected{% endif %}>Studio</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">City</label>
+                <input type="text" name="city" class="form-control form-control-sm" placeholder="e.g. Kathmandu" value="{{ request.GET.city }}">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Price Range (Rs.)</label>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <input type="number" name="min_price" class="form-control form-control-sm" placeholder="Min" value="{{ request.GET.min_price }}">
+                    </div>
+                    <div class="col-6">
+                        <input type="number" name="max_price" class="form-control form-control-sm" placeholder="Max" value="{{ request.GET.max_price }}">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Bedrooms</label>
+                <input type="number" name="bedrooms" class="form-control form-control-sm" min="0" placeholder="Min bedrooms" value="{{ request.GET.bedrooms }}">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Furnishing</label>
+                <select name="furnishing" class="form-select form-select-sm">
+                    <option value="">Any</option>
+                    <option value="furnished" {% if request.GET.furnishing == 'furnished' %}selected{% endif %}>Fully Furnished</option>
+                    <option value="semi" {% if request.GET.furnishing == 'semi' %}selected{% endif %}>Semi Furnished</option>
+                    <option value="unfurnished" {% if request.GET.furnishing == 'unfurnished' %}selected{% endif %}>Unfurnished</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Gender Preference</label>
+                <select name="gender_preference" class="form-select form-select-sm">
+                    <option value="">Any</option>
+                    <option value="male" {% if request.GET.gender_preference == 'male' %}selected{% endif %}>Male Only</option>
+                    <option value="female" {% if request.GET.gender_preference == 'female' %}selected{% endif %}>Female Only</option>
+                    <option value="family" {% if request.GET.gender_preference == 'family' %}selected{% endif %}>Family</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Amenities</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="has_wifi" id="wifi" {% if request.GET.has_wifi %}checked{% endif %}>
+                    <label class="form-check-label" for="wifi">WiFi</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="has_parking" id="parking" {% if request.GET.has_parking %}checked{% endif %}>
+                    <label class="form-check-label" for="parking">Parking</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="has_kitchen" id="kitchen" {% if request.GET.has_kitchen %}checked{% endif %}>
+                    <label class="form-check-label" for="kitchen">Kitchen</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="has_ac" id="ac" {% if request.GET.has_ac %}checked{% endif %}>
+                    <label class="form-check-label" for="ac">AC</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 mb-2">Apply Filters</button>
+            <a href="{% url 'properties:search' %}" class="btn btn-outline-secondary w-100 btn-sm">Clear All</a>
+        </form>
+    </div>
+</div>

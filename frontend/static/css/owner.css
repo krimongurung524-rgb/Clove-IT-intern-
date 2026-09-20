@@ -1,0 +1,23 @@
+/* Owner dashboard specific */
+.property-status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.status-available { background: #D1FAE5; color: #065F46; }
+.status-rented { background: #FEE2E2; color: #991B1B; }
+.status-pending { background: #FEF3C7; color: #92400E; }
+.status-inactive { background: #E5E7EB; color: #374151; }
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+}
+
+.amenity-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

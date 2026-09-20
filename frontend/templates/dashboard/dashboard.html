@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Welcome, {{ user.first_name|default:user.username }}!</h2>
+    
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <div class="dashboard-sidebar">
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="{% url 'dashboard:dashboard' %}"><i class="fas fa-home"></i> Overview</a>
+                    <a class="nav-link" href="{% url 'dashboard:saved_rooms' %}"><i class="fas fa-heart"></i> Saved Rooms</a>
+                    <a class="nav-link" href="{% url 'dashboard:visits' %}"><i class="fas fa-calendar"></i> My Visits</a>
+                    <a class="nav-link" href="{% url 'dashboard:messages' %}"><i class="fas fa-envelope"></i> Messages</a>
+                    <a class="nav-link" href="{% url 'dashboard:inquiries' %}"><i class="fas fa-question-circle"></i> Inquiries</a>
+                    <a class="nav-link" href="{% url 'accounts:profile' %}"><i class="fas fa-user"></i> Profile</a>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Main -->
+        <div class="col-lg-9">
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="card stat-card shadow-sm">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">{{ favorites_count }}</div>
+                                <div class="text-muted small">Saved Rooms</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card shadow-sm">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">{{ recent_visits|length }}</div>
+                                <div class="text-muted small">Recent Visits</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card stat-card shadow-sm">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="stat-icon bg-info bg-opacity-10 text-info me-3">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">{{ conversations|length }}</div>
+                                <div class="text-muted small">Conversations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Visits -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white d-flex justify-content-between">
+                    <h5 class="mb-0">Recent Visit Requests</h5>
+                    <a href="{% url 'dashboard:visits' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    {% for visit in recent_visits %}
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <strong>{{ visit.property.title }}</strong>
+                            <div class="small text-muted">{{ visit.preferred_date }} at {{ visit.preferred_time }}</div>
+                        </div>
+                        <span class="badge {% if visit.status == 'confirmed' %}bg-success{% elif visit.status == 'pending' %}bg-warning text-dark{% elif visit.status == 'cancelled' %}bg-secondary{% else %}bg-danger{% endif %}">
+                            {{ visit.get_status_display }}
+                        </span>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted mb-0">No visit requests yet. <a href="{% url 'properties:search' %}">Browse properties</a></p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'properties:search' %}" class="btn btn-primary"><i class="fas fa-search me-1"></i> Search Rooms</a>
+                        <a href="{% url 'properties:map' %}" class="btn btn-outline-primary"><i class="fas fa-map me-1"></i> Map View</a>
+                        <a href="{% url 'dashboard:saved_rooms' %}" class="btn btn-outline-primary"><i class="fas fa-heart me-1"></i> Saved Rooms</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

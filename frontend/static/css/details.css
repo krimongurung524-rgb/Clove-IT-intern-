@@ -1,0 +1,51 @@
+/* Property details page */
+.property-header {
+    margin-bottom: 1.5rem;
+}
+
+.property-price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.gallery-main {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.gallery-thumbs img {
+    height: 80px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.gallery-thumbs img:hover,
+.gallery-thumbs img.active {
+    opacity: 1;
+    border: 2px solid var(--primary);
+}
+
+.owner-card {
+    border-radius: 12px;
+    border: none;
+}
+
+.review-item {
+    border-bottom: 1px solid #E5E7EB;
+    padding: 1.25rem 0;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.rating-stars {
+    color: #F59E0B;
+}

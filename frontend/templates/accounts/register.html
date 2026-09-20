@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-bg">
+    <div class="container auth-container">
+        <div class="card auth-card mx-auto">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Create Account</h4>
+                <p class="mb-0 opacity-75 small">Join RoomFinder today</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        {{ form.phone }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">I am a</label>
+                        {{ form.role }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        {{ form.password2 }}
+                    </div>
+                    {% if form.errors %}
+                    <div class="alert alert-danger small">
+                        {% for field in form %}
+                            {% for error in field.errors %}{{ error }}<br>{% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}{{ error }}<br>{% endfor %}
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                </form>
+                <div class="auth-divider"><span>or</span></div>
+                <p class="text-center mb-0">
+                    Already have an account? <a href="{% url 'accounts:login' %}" class="fw-semibold">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

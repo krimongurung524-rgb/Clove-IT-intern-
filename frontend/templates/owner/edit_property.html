@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Property{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/owner.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Edit Property: {{ property.title }}</h2>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <h5 class="mb-3">Basic Information</h5>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Title *</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Property Type *</label>
+                        {{ form.property_type }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description *</label>
+                    {{ form.description }}
+                </div>
+                
+                <h5 class="mb-3 mt-4">Location</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label class="form-label">Address</label>{{ form.address }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">City</label>{{ form.city }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Area</label>{{ form.area }}</div>
+                </div>
+                
+                <h5 class="mb-3 mt-4">Pricing & Details</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-3"><label class="form-label">Rent (Rs.)</label>{{ form.price }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Deposit</label>{{ form.deposit }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Bedrooms</label>{{ form.bedrooms }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Bathrooms</label>{{ form.bathrooms }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3"><label class="form-label">Furnishing</label>{{ form.furnishing }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Gender Pref</label>{{ form.gender_preference }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Status</label>{{ form.status }}</div>
+                    <div class="col-md-3 mb-3"><label class="form-label">Contact Phone</label>{{ form.contact_phone }}</div>
+                </div>
+                
+                <h5 class="mb-3 mt-4">Amenities</h5>
+                <div class="amenities-grid mb-4">
+                    <div class="amenity-check">{{ form.has_wifi }} <label>WiFi</label></div>
+                    <div class="amenity-check">{{ form.has_parking }} <label>Parking</label></div>
+                    <div class="amenity-check">{{ form.has_kitchen }} <label>Kitchen</label></div>
+                    <div class="amenity-check">{{ form.has_ac }} <label>AC</label></div>
+                    <div class="amenity-check">{{ form.has_water }} <label>Water</label></div>
+                    <div class="amenity-check">{{ form.has_electricity }} <label>Electricity</label></div>
+                    <div class="amenity-check">{{ form.has_security }} <label>Security</label></div>
+                    <div class="amenity-check">{{ form.has_balcony }} <label>Balcony</label></div>
+                    <div class="amenity-check">{{ form.has_lift }} <label>Lift</label></div>
+                    <div class="amenity-check">{{ form.pets_allowed }} <label>Pets</label></div>
+                </div>
+                
+                <h5 class="mb-3">Add More Images</h5>
+                <input type="file" name="images" class="form-control mb-3" multiple accept="image/*">
+                
+                {% if property.images.exists %}
+                <div class="mb-3">
+                    <label class="form-label">Current Images</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for img in property.images.all %}
+                        <img src="{{ img.image.url }}" class="rounded" width="80" height="80" style="object-fit:cover;">
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Update Property</button>
+                    <a href="{% url 'owner:properties' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

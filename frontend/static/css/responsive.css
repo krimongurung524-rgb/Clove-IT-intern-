@@ -1,0 +1,71 @@
+/* Responsive styles */
+@media (max-width: 991.98px) {
+    .hero-section {
+        padding: 60px 0 80px;
+    }
+    
+    .search-bar-wrapper {
+        margin-top: -30px;
+    }
+    
+    .filters-sidebar {
+        position: static;
+        margin-bottom: 1.5rem;
+    }
+    
+    .gallery-main {
+        height: 280px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 40px 0 60px;
+        text-align: center;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .room-image {
+        height: 180px;
+    }
+    
+    .messages-container {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+    
+    .stat-card .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    #map {
+        height: 400px;
+    }
+    
+    .chat-container {
+        height: 400px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .property-price {
+        font-size: 1.5rem;
+    }
+}

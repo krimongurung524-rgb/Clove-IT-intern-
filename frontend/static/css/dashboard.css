@@ -1,0 +1,35 @@
+/* Dashboard styles */
+.dashboard-sidebar {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem 0;
+}
+
+.dashboard-sidebar .nav-link {
+    padding: 0.75rem 1.5rem;
+    color: var(--dark);
+    border-left: 3px solid transparent;
+    font-weight: 500;
+}
+
+.dashboard-sidebar .nav-link:hover,
+.dashboard-sidebar .nav-link.active {
+    background: #EEF2FF;
+    color: var(--primary);
+    border-left-color: var(--primary);
+}
+
+.dashboard-sidebar .nav-link i {
+    width: 24px;
+}
+
+.stat-card .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+}

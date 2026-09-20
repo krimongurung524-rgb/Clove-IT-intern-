@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="fw-bold mb-4">About RoomFinder</h1>
+            <p class="lead text-muted mb-5">
+                RoomFinder is Nepal's trusted platform for finding rooms, apartments, and houses for rent. 
+                We connect tenants with verified property owners to make the rental process simple, transparent, and stress-free.
+            </p>
+        </div>
+    </div>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-4 text-center">
+            <div class="feature-icon mx-auto"><i class="fas fa-search"></i></div>
+            <h5>Easy Search</h5>
+            <p class="text-muted">Filter by location, price, amenities, and more to find exactly what you need.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="feature-icon mx-auto"><i class="fas fa-shield-alt"></i></div>
+            <h5>Verified Listings</h5>
+            <p class="text-muted">We work to keep our listings accurate and up-to-date for your peace of mind.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="feature-icon mx-auto"><i class="fas fa-comments"></i></div>
+            <h5>Direct Contact</h5>
+            <p class="text-muted">Message owners directly and schedule visits without middlemen.</p>
+        </div>
+    </div>
+    
+    <div class="card border-0 shadow-sm p-4 text-center">
+        <h4>Our Mission</h4>
+        <p class="text-muted mb-0">
+            To make finding a home in Nepal as simple as a few clicks. Whether you're a student looking for a room near campus, 
+            a family searching for an apartment, or a property owner wanting to list your space — RoomFinder is here for you.
+        </p>
+    </div>
+</div>
+{% endblock %}

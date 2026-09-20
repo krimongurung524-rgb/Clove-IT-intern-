@@ -1,0 +1,36 @@
+<div class="search-bar-wrapper bg-white rounded-3 shadow p-3 p-md-4">
+    <form action="{% url 'properties:search' %}" method="GET" class="row g-2 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label small text-muted mb-1">Location</label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                <input type="text" name="q" class="form-control border-start-0" placeholder="City, area or landmark..." value="{{ request.GET.q }}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label small text-muted mb-1">Property Type</label>
+            <select name="property_type" class="form-select">
+                <option value="">All Types</option>
+                <option value="room" {% if request.GET.property_type == 'room' %}selected{% endif %}>Single Room</option>
+                <option value="flat" {% if request.GET.property_type == 'flat' %}selected{% endif %}>Flat/Apartment</option>
+                <option value="house" {% if request.GET.property_type == 'house' %}selected{% endif %}>House</option>
+                <option value="hostel" {% if request.GET.property_type == 'hostel' %}selected{% endif %}>Hostel</option>
+                <option value="pg" {% if request.GET.property_type == 'pg' %}selected{% endif %}>PG</option>
+                <option value="studio" {% if request.GET.property_type == 'studio' %}selected{% endif %}>Studio</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label small text-muted mb-1">Budget (Rs.)</label>
+            <div class="input-group">
+                <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ request.GET.min_price }}">
+                <span class="input-group-text">-</span>
+                <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ request.GET.max_price }}">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-search me-1"></i> Search
+            </button>
+        </div>
+    </form>
+</div>

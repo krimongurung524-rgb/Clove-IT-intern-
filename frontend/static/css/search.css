@@ -1,0 +1,30 @@
+/* Search page styles */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.sort-select {
+    width: auto;
+    min-width: 160px;
+}
+
+.filters-sidebar {
+    position: sticky;
+    top: 90px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-results i {
+    font-size: 4rem;
+    color: #D1D5DB;
+    margin-bottom: 1rem;
+}

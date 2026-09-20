@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="hero-text-box">
+                    <h1 class="display-5 mb-3">Find Your Perfect Room in Nepal</h1>
+                    <p class="lead mb-0">Discover thousands of rooms, apartments, and houses for rent. Connect directly with verified property owners.</p>
+                    <div class="hero-stats">
+                        <div class="hero-stat-item">
+                            <div class="number">500+</div>
+                            <div class="label">Properties</div>
+                        </div>
+                        <div class="hero-stat-item">
+                            <div class="number">50+</div>
+                            <div class="label">Cities</div>
+                        </div>
+                        <div class="hero-stat-item">
+                            <div class="number">1000+</div>
+                            <div class="label">Happy Tenants</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Bar -->
+<div class="container">
+    {% include 'components/search_bar.html' %}
+</div>
+
+<!-- Featured Properties -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="section-title">Featured Properties</h2>
+                <p class="section-subtitle mb-0">Handpicked rooms and apartments for you</p>
+            </div>
+            <a href="{% url 'properties:search' %}" class="btn btn-outline-primary">View All</a>
+        </div>
+        
+        <div class="row">
+            {% for property in featured_properties %}
+                {% include 'components/room_card.html' %}
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-home fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No featured properties yet. Check back soon!</p>
+                <a href="{% url 'properties:search' %}" class="btn btn-primary">Browse All Properties</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Popular Cities -->
+{% if popular_cities %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center">Popular Cities</h2>
+        <p class="section-subtitle text-center">Explore rooms in top locations</p>
+        <div class="row g-3">
+            {% for city in popular_cities %}
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{% url 'properties:search' %}?city={{ city.city }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-sm text-center p-3 h-100">
+                        <i class="fas fa-map-marker-alt text-primary fa-2x mb-2"></i>
+                        <h6 class="mb-1 text-dark">{{ city.city }}</h6>
+                        <small class="text-muted">{{ city.count }} properties</small>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Properties -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="section-title">Recently Added</h2>
+                <p class="section-subtitle mb-0">Fresh listings just for you</p>
+            </div>
+            <a href="{% url 'properties:search' %}?sort=newest" class="btn btn-outline-primary">View All</a>
+        </div>
+        
+        <div class="row">
+            {% for property in recent_properties %}
+                {% include 'components/room_card.html' %}
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted">No properties available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How it Works -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center">How It Works</h2>
+        <p class="section-subtitle text-center">Find your room in 3 simple steps</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="how-it-works-step">
+                    <div class="step-number">1</div>
+                    <h5>Search</h5>
+                    <p class="text-muted">Browse thousands of rooms by location, price, and amenities.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-step">
+                    <div class="step-number">2</div>
+                    <h5>Connect</h5>
+                    <p class="text-muted">Contact property owners directly via chat or schedule a visit.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-step">
+                    <div class="step-number">3</div>
+                    <h5>Move In</h5>
+                    <p class="text-muted">Finalize the deal and move into your new home!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA for Owners -->
+<section class="py-5">
+    <div class="container">
+        <div class="card border-0 shadow-lg overflow-hidden" style="background: linear-gradient(135deg, #4F46E5, #3730A3);">
+            <div class="card-body p-5 text-white text-center">
+                <h2 class="fw-bold mb-3">Are you a Property Owner?</h2>
+                <p class="lead mb-4 opacity-90">List your rooms and reach thousands of potential tenants for free.</p>
+                {% if user.is_authenticated and user.role == 'owner' %}
+                <a href="{% url 'owner:add_property' %}" class="btn btn-light btn-lg px-4">Add Your Property</a>
+                {% else %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg px-4">Get Started as Owner</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/favorites.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Property{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/owner.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4"><i class="fas fa-plus-circle text-primary me-2"></i>Add New Property</h2>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <h5 class="mb-3">Basic Information</h5>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Title *</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Property Type *</label>
+                        {{ form.property_type }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description *</label>
+                    {{ form.description }}
+                </div>
+                
+                <h5 class="mb-3 mt-4">Location</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Address *</label>
+                        {{ form.address }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">City *</label>
+                        {{ form.city }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Area</label>
+                        {{ form.area }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Landmark</label>
+                        {{ form.landmark }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Latitude</label>
+                        {{ form.latitude }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Longitude</label>
+                        {{ form.longitude }}
+                    </div>
+                </div>
+                
+                <h5 class="mb-3 mt-4">Pricing & Details</h5>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Monthly Rent (Rs.) *</label>
+                        {{ form.price }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Deposit (Rs.)</label>
+                        {{ form.deposit }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Bedrooms</label>
+                        {{ form.bedrooms }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Bathrooms</label>
+                        {{ form.bathrooms }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Area (sqft)</label>
+                        {{ form.area_sqft }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Floor</label>
+                        {{ form.floor }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Furnishing</label>
+                        {{ form.furnishing }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Gender Preference</label>
+                        {{ form.gender_preference }}
+                    </div>
+                </div>
+                
+                <div class="form-check mb-3">
+                    {{ form.price_negotiable }}
+                    <label class="form-check-label">Price Negotiable</label>
+                </div>
+                
+                <h5 class="mb-3 mt-4">Amenities</h5>
+                <div class="amenities-grid mb-4">
+                    <div class="amenity-check">{{ form.has_wifi }} <label>WiFi</label></div>
+                    <div class="amenity-check">{{ form.has_parking }} <label>Parking</label></div>
+                    <div class="amenity-check">{{ form.has_kitchen }} <label>Kitchen</label></div>
+                    <div class="amenity-check">{{ form.has_ac }} <label>AC</label></div>
+                    <div class="amenity-check">{{ form.has_water }} <label>Water</label></div>
+                    <div class="amenity-check">{{ form.has_electricity }} <label>Electricity</label></div>
+                    <div class="amenity-check">{{ form.has_security }} <label>Security</label></div>
+                    <div class="amenity-check">{{ form.has_balcony }} <label>Balcony</label></div>
+                    <div class="amenity-check">{{ form.has_lift }} <label>Lift</label></div>
+                    <div class="amenity-check">{{ form.has_gym }} <label>Gym</label></div>
+                    <div class="amenity-check">{{ form.pets_allowed }} <label>Pets Allowed</label></div>
+                    <div class="amenity-check">{{ form.smoking_allowed }} <label>Smoking Allowed</label></div>
+                </div>
+                
+                <h5 class="mb-3">Contact & Status</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Contact Phone</label>
+                        {{ form.contact_phone }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">WhatsApp</label>
+                        {{ form.contact_whatsapp }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Status</label>
+                        {{ form.status }}
+                    </div>
+                </div>
+                
+                <h5 class="mb-3 mt-4">Images</h5>
+                <div class="mb-3">
+                    <input type="file" name="images" class="form-control" multiple accept="image/*">
+                    <small class="text-muted">You can select multiple images. First image will be primary.</small>
+                    <div id="imagePreview" class="mt-2"></div>
+                </div>
+                
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Publish Property</button>
+                    <a href="{% url 'owner:dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/owner.js' %}"></script>
+{% endblock %}

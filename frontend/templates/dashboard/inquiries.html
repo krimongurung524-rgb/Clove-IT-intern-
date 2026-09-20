@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inquiries{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4"><i class="fas fa-question-circle text-primary me-2"></i>Inquiries</h2>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="list-group list-group-flush">
+            {% for inquiry in inquiries %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>
+                            {% if user.role == 'owner' %}
+                            From: {{ inquiry.user.username }}
+                            {% else %}
+                            To: {{ inquiry.property.owner.username }}
+                            {% endif %}
+                        </strong>
+                        <div class="small text-muted">
+                            Property: <a href="{% url 'properties:details' inquiry.property.pk %}">{{ inquiry.property.title }}</a>
+                        </div>
+                    </div>
+                    <small class="text-muted">{{ inquiry.created_at|timesince }} ago</small>
+                </div>
+                <p class="mb-1 mt-2">{{ inquiry.message }}</p>
+                {% if inquiry.phone %}
+                <small class="text-muted"><i class="fas fa-phone"></i> {{ inquiry.phone }}</small>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="p-4 text-center text-muted">No inquiries yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
