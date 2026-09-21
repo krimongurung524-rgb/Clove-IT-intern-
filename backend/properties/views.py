@@ -182,14 +182,16 @@ def add_property(request):
         return redirect('home')
     
     if request.method == 'POST':
-        form = PropertyForm(request.POST)
-        print("jkafhslas")
+        form = PropertyForm(request.POST, request.FILES)      # ← FIX 1: request.FILES thapiyeko
         images = request.FILES.getlist('images')
         
         if form.is_valid():
-            print("valid")
             property_obj = form.save(commit=False)
             property_obj.owner = request.user
+            
+            if not property_obj.location_unlock_fee:          # ← FIX 2: default fee
+                property_obj.location_unlock_fee = 50
+            
             property_obj.save()
             
             for i, image in enumerate(images):
@@ -202,11 +204,12 @@ def add_property(request):
             messages.success(request, 'Property listed successfully!')
             return redirect('owner:properties')
         else:
-            print("invalid form")
+            print(form.errors)                                # ← kunai bela error aaye dekhna
     else:
         form = PropertyForm()
     
     return render(request, 'owner/add_property.html', {'form': form})
+
 
 @login_required
 def unlock_location(request, pk):
@@ -254,11 +257,16 @@ def edit_property(request, pk):
     property_obj = get_object_or_404(Property, pk=pk, owner=request.user)
     
     if request.method == 'POST':
-        form = PropertyForm(request.POST, instance=property_obj)
+        form = PropertyForm(request.POST, request.FILES, instance=property_obj)   # ← FIX: request.FILES
         images = request.FILES.getlist('images')
         
         if form.is_valid():
-            form.save()
+            property_obj = form.save(commit=False)
+            
+            if not property_obj.location_unlock_fee:          # ← FIX: default fee
+                property_obj.location_unlock_fee = 50
+            
+            property_obj.save()
             
             for i, image in enumerate(images):
                 PropertyImage.objects.create(
@@ -269,6 +277,8 @@ def edit_property(request, pk):
             
             messages.success(request, 'Property updated successfully!')
             return redirect('owner:properties')
+        else:
+            print(form.errors)
     else:
         form = PropertyForm(instance=property_obj)
     
