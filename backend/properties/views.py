@@ -183,9 +183,11 @@ def add_property(request):
     
     if request.method == 'POST':
         form = PropertyForm(request.POST)
+        print("jkafhslas")
         images = request.FILES.getlist('images')
         
         if form.is_valid():
+            print("valid")
             property_obj = form.save(commit=False)
             property_obj.owner = request.user
             property_obj.save()
@@ -199,6 +201,8 @@ def add_property(request):
             
             messages.success(request, 'Property listed successfully!')
             return redirect('owner:properties')
+        else:
+            print("invalid form")
     else:
         form = PropertyForm()
     
