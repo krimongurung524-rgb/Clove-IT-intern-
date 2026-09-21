@@ -49,6 +49,7 @@ class Property(models.Model):
     price_negotiable = models.BooleanField(default=False)
     location_unlock_fee = models.DecimalField(
         max_digits=10, decimal_places=2, default=50,
+        blank=True,                                    # ← FIX: yo matra thapiyeko
         validators=[MinValueValidator(0)],
         help_text='Amount user must pay to see exact location'
     )
@@ -171,6 +172,9 @@ class Inquiry(models.Model):
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = 'Inquiries'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return f'Inquiry by {self.user.username} on {self.property.title}'
